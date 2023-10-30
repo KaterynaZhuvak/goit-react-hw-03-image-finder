@@ -16,6 +16,10 @@ export class App extends Component {
     error: null,
     currentPage: 1,
     modalImage: null,
+    modal: {
+      isOpen: false,
+      modalData: null,
+    },
   };
 
   fetchImages = async () => {
@@ -43,17 +47,38 @@ export class App extends Component {
 
   onClick = page => {
     this.setState({ currentPage: page });
-    this.fetchImages();
+    
+    
   };
 
   componentDidUpdate(_, prevState) {
     if (this.state.currentPage !== prevState.currentPage) {
+      this.fetchImages();
       const newImages = this.state.images;
+      
       this.setState({
         images: [...prevState.images, ...newImages],
       });
     }
   }
+
+  openModal = imageImg => {
+    this.setState({
+      modal: {
+        isOpen: true,
+        modalData: imageImg,
+      },
+    });
+  };
+
+  closeModal = () => {
+    this.setState({
+      modal: {
+        isOpen: false,
+        modalData: null,
+      },
+    });
+  };
 
   render() {
     return (
@@ -65,9 +90,9 @@ export class App extends Component {
           </p>
         )}
         <SearchBar onSubmit={this.onSubmit} />
-        <ImageGallery images={this.state.images} />
+        <ImageGallery images={this.state.images} openModal={this.openModal} />
         {this.state.totalImages > 12 && <Button onClick={this.onClick} />}
-        <Modal />
+        {this.state.modal.isOpen && <Modal currentImg={this.state.modal.modalData } closeModal={this.closeModal} />}
       </div>
     );
   }
