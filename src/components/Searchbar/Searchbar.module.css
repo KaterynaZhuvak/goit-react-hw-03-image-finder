@@ -4,8 +4,8 @@
 }
 
 .form {
-display: flex;
-justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .searchInput {
@@ -31,7 +31,7 @@ justify-content: center;
   background-color: #3f1b74;
   color: #fff;
 }
- 
+
 .container {
   display: flex;
   align-items: center;

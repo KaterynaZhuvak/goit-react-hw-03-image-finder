@@ -1,0 +1,27 @@
+.galleryContainer {
+  padding: 16px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.photo {
+  flex-basis: calc((100% - 30px) / 4);
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px 10px 0 0;
+}
+
+.photo:hover {
+  transform: translateY(-5px);
+  transition: transform 0.2s ease-in-out;
+  box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.15);
+}

@@ -2,18 +2,18 @@ import React, { Component } from 'react';
 
 import axios from 'axios';
 
-import css from './App.module.css'
+import css from './App.module.css';
 
 import { SearchBar } from './Searchbar/Searchbar';
-import { ImageGallery } from './ImageGellery/ImageGallery';
+import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from './Button/Button';
 import { Loader } from './Loader/Loader';
 import { Modal } from './Modal/Modal';
 
 export class App extends Component {
   state = {
-    images: null,
-    input: null,
+    images: [],
+    input: '',
     totalImages: null,
     isLoading: false,
     error: null,
@@ -31,10 +31,10 @@ export class App extends Component {
       const { data } = await axios.get(
         `https://pixabay.com/api/?q=${this.state.input}&page=${this.state.currentPage}&key=39488984-2cdf64825ff5a66680c809fac&image_type=photo&orientation=horizontal&per_page=12`
       );
-      this.setState({
-        images: data.hits,
+      this.setState(prevState => ({
+        images: [...prevState.images, ...data.hits],
         totalImages: data.totalHits,
-      });
+      }));
     } catch (error) {
       this.setState({ error: error.message });
     } finally {
@@ -43,9 +43,14 @@ export class App extends Component {
   };
 
   onSubmit = value => {
-    this.setState({ input: value }, () => {
-      this.fetchImages();
-    });
+    this.setState(
+      {
+        input: value,
+        images: [],
+        currentPage: 1,
+      },
+      () => {}
+    );
   };
 
   onClick = page => {
@@ -53,13 +58,11 @@ export class App extends Component {
   };
 
   componentDidUpdate(_, prevState) {
-    if (this.state.currentPage !== prevState.currentPage) {
+    if (
+      this.state.currentPage !== prevState.currentPage ||
+      this.state.input !== prevState.input
+    ) {
       this.fetchImages();
-      const newImages = this.state.images;
-
-      this.setState({
-        images: [...prevState.images, ...newImages],
-      });
     }
   }
 
