@@ -21,7 +21,10 @@ export class App extends Component {
     modalImage: null,
     modal: {
       isOpen: false,
-      modalData: null,
+      modalData: {
+          largeImage: null,
+          alt: null,
+        }
     },
   };
 
@@ -66,11 +69,14 @@ export class App extends Component {
     }
   }
 
-  openModal = imageImg => {
+  openModal = (imageImg, tags) => {
     this.setState({
       modal: {
         isOpen: true,
-        modalData: imageImg,
+        modalData: {
+          largeImage: imageImg,
+          alt: tags,
+        }
       },
     });
   };
@@ -100,7 +106,8 @@ export class App extends Component {
         {this.state.totalImages > 12 && <Button onClick={this.onClick} />}
         {this.state.modal.isOpen && (
           <Modal
-            currentImg={this.state.modal.modalData}
+            currentImg={this.state.modal.modalData.largeImage}
+            alt={this.state.modal.modalData.alt}
             closeModal={this.closeModal}
           />
         )}
