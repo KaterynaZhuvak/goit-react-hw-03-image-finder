@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
+
 import axios from 'axios';
 
-import { SearchBar } from './Searchbar';
-import { ImageGallery } from './ImageGallery';
-import { Button } from './Button';
-import { Loader } from './Loader';
-import { Modal } from './Modal';
+import css from './App.module.css'
+
+import { SearchBar } from './Searchbar/Searchbar';
+import { ImageGallery } from './ImageGellery/ImageGallery';
+import { Button } from './Button/Button';
+import { Loader } from './Loader/Loader';
+import { Modal } from './Modal/Modal';
 
 export class App extends Component {
   state = {
@@ -47,15 +50,13 @@ export class App extends Component {
 
   onClick = page => {
     this.setState({ currentPage: page });
-    
-    
   };
 
   componentDidUpdate(_, prevState) {
     if (this.state.currentPage !== prevState.currentPage) {
       this.fetchImages();
       const newImages = this.state.images;
-      
+
       this.setState({
         images: [...prevState.images, ...newImages],
       });
@@ -82,17 +83,24 @@ export class App extends Component {
 
   render() {
     return (
-      <div>
+      <div className={css.container}>
+        <div className={css.wrapper}>
+          <SearchBar onSubmit={this.onSubmit} />
+        </div>
         {this.state.isLoading && <Loader />}
         {this.state.error !== null && (
           <p className="error-bage">
             Oops, some error occured... Error message: {this.state.error}
           </p>
         )}
-        <SearchBar onSubmit={this.onSubmit} />
         <ImageGallery images={this.state.images} openModal={this.openModal} />
         {this.state.totalImages > 12 && <Button onClick={this.onClick} />}
-        {this.state.modal.isOpen && <Modal currentImg={this.state.modal.modalData } closeModal={this.closeModal} />}
+        {this.state.modal.isOpen && (
+          <Modal
+            currentImg={this.state.modal.modalData}
+            closeModal={this.closeModal}
+          />
+        )}
       </div>
     );
   }
