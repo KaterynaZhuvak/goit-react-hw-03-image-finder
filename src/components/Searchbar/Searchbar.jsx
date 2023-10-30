@@ -26,8 +26,8 @@ export class SearchBar extends Component {
             onChange={this.handleChange}
             className={css.searchInput}
             type="text"
-            autocomplete="off"
-            autofocus
+            autoComplete="off"
+            autoFocus
             placeholder="Search images and photos"
           />
           <button type="submit" className={css.searchButton}>
